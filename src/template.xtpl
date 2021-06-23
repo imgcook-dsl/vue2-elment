@@ -1,13 +1,20 @@
-'use strict';
+<template>
+{{{template}}}
+</template>
 
-import React, { Component } from 'react';
-
+<script>
 {{{imports}}}
-
-{{{utils}}}
-
-{{{style}}}
-
-{{{classes}}}
-
-{{{exports}}}
+export default {
+  data() {
+    return {
+      {{{datas.join(',')}}}
+    }
+  },
+  methods:{
+    {{{methods.join(',')}}}
+  }
+}
+</script>
+<style scoped>
+  {{{styles.join('\n')}}}
+</style>.
