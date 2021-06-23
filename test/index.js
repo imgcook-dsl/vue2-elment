@@ -6,10 +6,12 @@ const path = require('path');
 const prettier = require('prettier');
 const { NodeVM } = require('vm2');
 const _ = require('lodash');
-const data = require('./data');
+const data = require('./data5');
+
 
 const vm = new NodeVM({
   console: 'inherit',
+  // console: 'redirect', //inherit redirect
   sandbox: {}
 });
 
@@ -27,11 +29,18 @@ co(function*() {
       viewportWidth: 375
     },
     utils: {
-      print: function(value) {
-        console.log(value);
+      print: function(value) {  
+        // console.log(value);
       }
     }
   });
+  // renderInfo中包含了所有格式化后的代码
+  // console.log(renderInfo.panelDisplay)
+  // renderInfo.panelDisplay.forEach(item => {
+  // 	console.log('\x1B[31m%s\x1B[0m', '----------------------' + item. panelName + '-----------------------')
+  // 	console.log(item.panelValue)
+  // })
+console.log(renderInfo.panelDisplay[0].panelValue)
 
   if (renderInfo.noTemplate) {
     renderInfo.panelDisplay.forEach((file) => {
