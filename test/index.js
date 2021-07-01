@@ -6,7 +6,7 @@ const path = require('path');
 const prettier = require('prettier');
 const { NodeVM } = require('vm2');
 const _ = require('lodash');
-const data = require('./data5');
+const data = require('./data2');
 
 
 const vm = new NodeVM({
@@ -55,6 +55,7 @@ console.log(renderInfo.panelDisplay[0].panelValue)
     );
 
     const prettierOpt = renderInfo.prettierOpt || {
+      parser: 'vue',
       printWidth: 120
     };
 

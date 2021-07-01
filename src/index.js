@@ -13,6 +13,7 @@ module.exports = function(schema, option) {
   // data
   const datas = [];
 
+  const constants = {};
   const defaultProps = {};
 
   // methods
@@ -83,29 +84,34 @@ module.exports = function(schema, option) {
     return String(value);
   };
 
-  // convert to responsive unit, such as rpx
-  const parseStyle = (style, toVW) => {
+  // convert to responsive unit, such as vw
+  const parseStyle = (style, option = {}) => {
+    const { toVW, toREM } = option;
     const styleData = [];
     for (let key in style) {
       let value = style[key];
       if (boxStyleList.indexOf(key) != -1) {
-        // 默认采用vw布局
         if (toVW) {
-          value = (parseInt(value) * _w).toFixed(2);
-          value = value == 0 ? value : (value*100/1920).toFixed(2) + 'vw';
+          value = (parseInt(value) / _w).toFixed(2);
+          value = value == 0 ? value : value + 'vw';
+        } else if (toREM && htmlFontsize) {
+          const valueNum = typeof value == 'string' ? value.replace(/(px)|(rem)/, '') : value;
+          const fontSize = (valueNum * (viewportWidth / width)).toFixed(2);
+          value = parseFloat((fontSize / htmlFontsize).toFixed(2));
+          value =  value ? `${value}rem` : value;
         } else {
-          value = (parseInt(value)).toFixed(2);
+          value = parseInt(value).toFixed(2);
           value = value == 0 ? value : value + 'px';
         }
         styleData.push(`${_.kebabCase(key)}: ${value}`);
       } else if (noUnitStyles.indexOf(key) != -1) {
-        styleData.push(`${_.kebabCase(key)}: ${isNaN(parseFloat(value)) ? value : parseFloat(value) }`);
+        styleData.push(`${_.kebabCase(key)}: ${parseFloat(value)}`);
       } else {
         styleData.push(`${_.kebabCase(key)}: ${value}`);
       }
     }
     return styleData.join(';');
-  }
+  };
 
   // parse function, return params and content
   const parseFunction = (func) => {
@@ -122,8 +128,6 @@ module.exports = function(schema, option) {
 
   // parse layer props(static values or expression)
   const parseProps = (value, isReactNode, constantName) => {
-    // console.log(`constantName: ${constantName}, ${value}`)
-    // console.log(`parseProps:`, value, isReactNode, constantName);
     if (typeof value === 'string') {
       if (isExpression(value)) {
         if (isReactNode) {
@@ -134,23 +138,25 @@ module.exports = function(schema, option) {
       }
 
       if (isReactNode) {
-        defaultProps[_.camelCase(constantName)] = value;
-        return `{{${_.camelCase(constantName)}}}`;
-      } else if (_.camelCase(constantName)) { // save to constant
-        // expressionName[constantName] = expressionName[constantName] ? expressionName[constantName] + 1 : 1;
-        // const name = `${constantName}${expressionName[constantName]}`;
-        defaultProps[_.camelCase(constantName)] = value;
-        return `"${_.camelCase(constantName)}"`;
+        return value;
+      } else if (constantName) {
+        // save to constant
+        expressionName[constantName] = expressionName[constantName] ? expressionName[constantName] + 1 : 1;
+        const name = `${constantName}${expressionName[constantName]}`;
+        constants[name] = value;
+        return `"constants.${name}"`;
       } else {
         return `"${value}"`;
       }
     } else if (typeof value === 'function') {
-      const {params, content, name} = parseFunction(value);
+      const { params, content, name } = parseFunction(value);
       expressionName[name] = expressionName[name] ? expressionName[name] + 1 : 1;
       methods.push(`${name}_${expressionName[name]}(${params}) {${content}}`);
       return `${name}_${expressionName[name]}`;
+    } else {
+      return `"${value}"`;
     }
-  }
+  };
 
   const parsePropsKey = (key, value) => {
     if (typeof value === 'function') {
@@ -417,7 +423,7 @@ module.exports = function(schema, option) {
   // start parse schema
   transform(schema);
   // console.log(`defaultProps: ${JSON.stringify(defaultProps)}`);
-  datas.push(`defaultProps: ${toString(defaultProps)}`);
+  datas.push(`constants: ${toString(constants)}`);
 
   const prettierOpt = {
     parser: 'vue',
@@ -431,24 +437,24 @@ module.exports = function(schema, option) {
       {
         panelName: `index.vue`,
         panelValue: prettier.format(`
-          <template>
-              ${template}
-          </template>
-          <script>
-            ${imports.join('\n')}
-            export default {
-              data() {
-                return ${JSON.stringify(defaultProps)}
-              },
-              methods: {
-                ${methods.join(',\n')}
-              },
-              ${lifeCycles.join(',\n')}
-            }
-          </script>
-          <style>
-          @import "./index.response.css";
-          </style>
+        <template>
+        ${template}
+        </template>
+        <script>
+          ${imports.join('\n')}
+          export default {
+            data() {
+              return {
+                ${datas.join(',\n')}
+              } 
+            },
+            methods: {
+              ${methods.join(',\n')}
+            },
+            ${lifeCycles.join(',\n')}
+          }
+        </script>
+        <style src="./index.response.css" />
         `, prettierOpt),
         panelType: 'vue',
       },

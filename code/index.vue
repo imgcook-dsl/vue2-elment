@@ -1,54 +1,37 @@
 <template>
   <div class="mod">
-    <el-input v-model="输入框变量名" placeholder="请输入内容"></el-input>
-    <div class="body">
-      <div class="group-i0">
-        <div class="mask" />
-        <span class="info">{{ info }}</span>
-      </div>
-      <div class="group-i1">
-        <div class="overlayer" />
-        <span class="meta">{{ meta }}</span>
-      </div>
-      <div class="group-i2">
-        <div class="layer" />
-        <span class="subtitle">{{ subtitle }}</span>
-      </div>
-      <div class="group-i3">
-        <div class="mask-1" />
-        <span class="tag">{{ tag }}</span>
-      </div>
+    <div class="header-i0">
+      <img class="thumbnail" :src="constants.thumbnail1" />
+      <img class="logo" :src="constants.logo1" />
     </div>
-    <div class="submain">
-      <img class="icon" :src="icon" /> <img class="icon-1" :src="icon1" />
-      <img class="icon-2" :src="icon2" />
-      <img class="shop-logo" :src="shopLogo" />
+    <div class="header-i1">
+      <img class="figure" :src="constants.figure1" />
+      <img class="logo-1" :src="constants.logo - 11" />
     </div>
-    <div class="main" v-for="(item, index) in 循环数据变量名" :key="index">
-      <div class="group">
-        <span class="location">{{ location }}</span>
-        <div class="time-wrapper">
-          <span class="time">{{ time }}</span>
-        </div>
-      </div>
-      <div class="group-1">
-        <span class="address">{{ address }}</span>
-        <div class="timer-wrapper">
-          <span class="timer">{{ timer }}</span>
-        </div>
-      </div>
-      <div class="group-2">
-        <span class="location-1">{{ location1 }}</span>
-        <div class="clock-wrapper">
-          <span class="clock">{{ clock }}</span>
-        </div>
-      </div>
-      <div class="group-3">
-        <span class="address-1">{{ address1 }}</span>
-        <div class="time-wrapper-1">
-          <span class="time-1">{{ time1 }}</span>
-        </div>
-      </div>
+    <div class="submain-i0">
+      <img class="media" :src="constants.media1" />
+      <img class="large-icon" :src="constants.large - icon1" />
+    </div>
+    <div class="submain-i1">
+      <img class="thumbnail-1" :src="constants.thumbnail - 11" />
+      <img class="large-icon-1" :src="constants.large - icon - 11" />
+    </div>
+    <div class="header-i2">
+      <img class="figure-1" :src="constants.figure - 11" />
+      <img class="logo-2" :src="constants.logo - 21" />
+    </div>
+    <div class="submain-i2">
+      <img class="media-1" :src="constants.media - 11" />
+      <img class="large-icon-2" :src="constants.large - icon - 21" />
+    </div>
+    <div class="header-i3">
+      <img class="thumbnail-2" :src="constants.thumbnail - 21" />
+      <img class="logo-3" :src="constants.logo - 31" />
+    </div>
+    <div class="footer">
+      <img class="action-bg" :src="constants.action - bg1" />
+      <img class="icon" :src="constants.icon1" />
+      <img class="logo-4" :src="constants.logo - 41" />
     </div>
   </div>
 </template>
@@ -56,31 +39,45 @@
 export default {
   data() {
     return {
-      info: '监督发现问题\r',
-      meta: '已解决问题数\r',
-      subtitle: '收集意见建议\r',
-      tag: '群众满意度\r',
-      icon:
-        'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/f5152680b46611eb88036994d50680a3.png',
-      icon1:
-        'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/f5383ee0b46611ebbf28499222699ef9.png',
-      icon2:
-        'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/f55bcc70b46611eb81cf2f493451c55c.png',
-      shopLogo:
-        'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/f57d8540b46611ebbe4eb94ab0d46d3d.png',
-      location: '南湖区村（居）务监督委员会月报表三家浜社区4月\r',
-      time: '2020年4月\r',
-      address: '南湖区村（居）务监督委员会月报表三家浜社区4月\r',
-      timer: '2020年4月\r',
-      location1: '南湖区村（居）务监督委员会月报表三家浜社区4月\r',
-      clock: '2020年4月\r',
-      address1: '南湖区村（居）务监督委员会月报表三家浜社区4月\r',
-      time1: '2020年4月\r'
+      constants: {
+        thumbnail1:
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6e7d1760bdc911eb99715732d7bd9853.png',
+        logo1:
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6eaeaeb0bdc911eb8d045539d0df5122.png',
+        figure1:
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6ed597a0bdc911ebbb36c51d158867fa.png',
+        'logo-11':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6ef83ad0bdc911ebbf0bdf494f46d151.png',
+        media1:
+          'https://img.alicdn.com/tfs/TB1F1jLvYj1gK0jSZFOXXc7GpXa-800-800.png',
+        'large-icon1':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6f50bb10bdc911eb82c8c1db1c743e81.png',
+        'thumbnail-11':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6f750bf0bdc911eba9423561a50a6cc0.png',
+        'large-icon-11':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6f989980bdc911ebbb36c51d158867fa.png',
+        'figure-11':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/6fb37480bdc911ebbf0bdf494f46d151.png',
+        'logo-21':
+          'https://img.alicdn.com/tfs/TB1F1jLvYj1gK0jSZFOXXc7GpXa-800-800.png',
+        'media-11':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/700453a0bdc911eb99715732d7bd9853.png',
+        'large-icon-21':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/703108f0bdc911eb8d045539d0df5122.png',
+        'thumbnail-21':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/704e54f0bdc911eb8ca5b1ab1198a4ff.png',
+        'logo-31':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/70787230bdc911ebbf0bdf494f46d151.png',
+        'action-bg1':
+          'https://img.alicdn.com/tfs/TB1F1jLvYj1gK0jSZFOXXc7GpXa-800-800.png',
+        icon1:
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/70cdbe20bdc911eb82c8c1db1c743e81.png',
+        'logo-41':
+          'https://ai-sample.oss-cn-hangzhou.aliyuncs.com/test/70f0fd90bdc911eb8d045539d0df5122.png'
+      }
     };
   },
   methods: {}
 };
 </script>
-<style>
-@import './index.response.css';
-</style>
+<style src="./index.response.css" />
